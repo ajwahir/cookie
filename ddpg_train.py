@@ -5,12 +5,15 @@ import sys
 from keras.models import Sequential, Model
 from keras.layers import Dense, Activation, Flatten, Input, concatenate
 from keras.optimizers import Adam
+import keras.backend as K
 
 import numpy as np
 
 from rl.agents import DDPGAgent
 from rl.memory import SequentialMemory
 from rl.random import OrnsteinUhlenbeckProcess
+from rl.core import Processor
+from rl.callbacks import FileLogger, ModelIntervalCheckpoint
 
 from osim.env import *
 from osim.http.client import Client
@@ -126,8 +129,17 @@ agent = DDPGAgent(nb_actions=nb_actions, actor=actor, critic=critic, critic_acti
 agent.compile(Adam(lr=.001, clipnorm=1.), metrics=['mae'])
 
 # Training here 
+agent.load_weights(args.model)
 
-agent.fit(env, nb_steps=nallsteps, visualize=False, verbose=1, nb_max_episode_steps=env.time_limit, log_interval=10000)
+# Okay, now it's time to learn something! We capture the interrupt exception so that training
+# can be prematurely aborted. Notice that you can the built-in Keras callbacks!
+weights_filename = 'ddpg_{}_weights.h5f'.format('big_head')
+checkpoint_weights_filename = 'dqn_' + 'big_head' + '_weights_{step}.h5f'
+log_filename = 'ddpg_{}_log.json'.format('big_head')
+callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=10000)]
+callbacks += [FileLogger(log_filename, interval=100)]
+
+agent.fit(env, nb_steps=nallsteps, visualize=False, verbose=1, nb_max_episode_steps=env.time_limit, log_interval=10000,callbacks=callbacks)
 # After training is done, we save the final weights.
 agent.save_weights(args.model, overwrite=True)
 

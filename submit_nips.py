@@ -73,7 +73,7 @@ parser.add_argument('--token', dest='token', action='store', required=False)
 args = parser.parse_args()
 
 # Load walking environment
-env = ProstheticsEnv(visualize=True)
+env = ProstheticsEnv(visualize=False)
 env.reset(project = True)
 # change_model(model='3D', prosthetic=True, difficulty=2,seed=None)
 # env.reset(project = True)
