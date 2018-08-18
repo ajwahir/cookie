@@ -69,7 +69,7 @@ def get_list_dict(state_desc):
 parser = argparse.ArgumentParser(description='Train or test neural net motor controller')
 parser.add_argument('--train', dest='train', action='store_true', default=True)
 parser.add_argument('--test', dest='train', action='store_false', default=True)
-parser.add_argument('--steps', dest='steps', action='store', default=10000000, type=int)
+parser.add_argument('--steps', dest='steps', action='store', default=3000000, type=int)
 parser.add_argument('--visualize', dest='visualize', action='store_true', default=False)
 parser.add_argument('--model', dest='model', action='store', default="example.h5f")
 parser.add_argument('--token', dest='token', action='store', required=False)
@@ -140,7 +140,7 @@ log_filename = 'ddpg_{}_log.json'.format('big_head')
 callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=10000)]
 callbacks += [FileLogger(log_filename, interval=100)]
 
-agent.fit(env, nb_steps=nallsteps, visualize=False, verbose=1, nb_max_episode_steps=env.time_limit, log_interval=20000,callbacks=callbacks)
+agent.fit(env, nb_steps=nallsteps, visualize=False, verbose=1, nb_max_episode_steps=env.time_limit, log_interval=10000,callbacks=callbacks)
 # After training is done, we save the final weights.
 agent.save_weights(args.model, overwrite=True)
 
