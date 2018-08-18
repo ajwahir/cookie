@@ -117,10 +117,10 @@ critic = Model(inputs=[action_input, observation_input], outputs=x)
 print(critic.summary())
 
 # Set up the agent for training
-memory = SequentialMemory(limit=100000, window_length=1)
+memory = SequentialMemory(limit=200000, window_length=1)
 random_process = OrnsteinUhlenbeckProcess(theta=.15, mu=0., sigma=.2, size=env.get_action_space_size())
 agent = DDPGAgent(nb_actions=nb_actions, actor=actor, critic=critic, critic_action_input=action_input,
-                  memory=memory, nb_steps_warmup_critic=100, nb_steps_warmup_actor=100,
+                  memory=memory, nb_steps_warmup_critic=300, nb_steps_warmup_actor=300,
                   random_process=random_process, gamma=.9, target_model_update=1e-3,
                   delta_clip=1.,batch_size=200)
 # agent = ContinuousDQNAgent(nb_actions=env.noutput, V_model=V_model, L_model=L_model, mu_model=mu_model,
@@ -130,7 +130,7 @@ agent.compile(Adam(lr=.001, clipnorm=1.), metrics=['mae'])
 
 # Training here 
 # Loading weights for retrain. commet this if you are training from scratch - 
-agent.load_weights('/home/ajwahir/sads/cookie/models/batch200/interval_4')
+agent.load_weights('/home/ajwahir/sads/cookie/models/batch200/interval_5')
 
 # Okay, now it's time to learn something! We capture the interrupt exception so that training
 # can be prematurely aborted. Notice that you can the built-in Keras callbacks!
