@@ -127,6 +127,6 @@ agent.compile(Adam(lr=.001, clipnorm=1.), metrics=['mae'])
 
 # Testing
 
-agent.load_weights(args.model)
+agent.load_weights('/home/ajwahir/sads/cookie/models/batch200/interval_4')
 # Finally, evaluate our algorithm for 1 episode.
-agent.test(env, nb_episodes=10, visualize=False, nb_max_episode_steps=500)
+agent.test(env, nb_episodes=1, visualize=False, nb_max_episode_steps=500)
