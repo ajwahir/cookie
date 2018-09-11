@@ -1,0 +1,34 @@
+* relative values for body parameters are taken. - relative to pelvis
+
+body parameters used are - 
+
+*for 
+	* pelvis, head, torso, toes_l, talus_l
+		* body_pos
+		* body_vel
+		* body_acc
+		* body_pos_rot - reversed values
+		* body_vel_rot - reversed values # DON'T KNOW WHY
+		* body_acc_rot - reversed values
+
+* relative to pelivis are taken only for body_pos x,y,z and body_acceleration, x and y 
+but they are not used :think:
+
+The joint parameters used are 
+
+* for 
+	* ankle_r, ankle_l, back, hip_l, hip_r, knee_l, knee_r 
+	//ground_pelvis is not used 6 lenght vector
+
+		* joint_pos
+		* joint_vel
+		* joint_acc
+
+Muscle -
+
+* All muscle feedback is used like all 19 muscles but muscle force is not used //mucle force not used //not sure if it is exaclty propotional to muscle activation then there will be no used of using it, but we will try to used it and normalize it before using.
+
+Misc -
+
+* relative center of mass position is calculated 
+* mass center velocity and acceleration is just added
